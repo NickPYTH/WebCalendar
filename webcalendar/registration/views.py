@@ -5,4 +5,4 @@ from django.http import HttpResponse, Http404
 
 
 def main_page(request):
-    return render(request, "index.html")
+    return render(request, "index.html", context={'name' : "Nick"})
