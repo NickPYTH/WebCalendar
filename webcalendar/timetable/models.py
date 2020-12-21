@@ -12,6 +12,7 @@ class BaseDay(models.Model):
     def __str__(self):
         return str(self.user)
 
+
 class Monday(BaseDay):
     class Meta:
         verbose_name = "1 Понедельник"

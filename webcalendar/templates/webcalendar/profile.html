@@ -14,9 +14,37 @@ Registration
 {% block content %}
 <div class="container">
    <div class="row">
-      <div class="col-12">
-        Kek
-      </div>
+        <div class="d-none d-lg-flex col-lg-2">
+            <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item">Monday</li>
+                <li class="list-group-item">Tuesday</li>
+                <li class="list-group-item">Wednesday</li>
+                <li class="list-group-item">Thursday</li>
+                <li class="list-group-item">Friday</li>
+                <li class="list-group-item">Saturday</li>
+                <li class="list-group-item">Sunday</li>
+            </ul>
+        </div>
+        <div class="col-lg-10">
+            <p class="text-center">
+                {{ day }}
+            </p>
+            <p class="text-center">
+                You have {{ empty_time }} hours free time
+            </p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+            </div>
+            <br>
+
+            {% for case in cases %}
+                Case - {{ case.case }}<br>
+                Case description - {{ case.case_description }}<br>
+                Case start - {{ case.case_start }}<br>
+                Case end - {{ case.case_end }}<br>
+            {% endfor %}
+
+        </div>
    </div>
 </div>
 {% endblock %}
