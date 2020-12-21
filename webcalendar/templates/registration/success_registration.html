@@ -1,0 +1,31 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}
+Registration
+{% endblock %}
+
+{% block signup %}
+{% endblock %}
+{% block login %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+   <div class="row">
+      <div class="col-12">
+        <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Registration complete!</h4>
+        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+        <hr>
+        <button href="{{ url 'profile'}}"class="btn btn-secondary">Go to profile</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
