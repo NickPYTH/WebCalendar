@@ -24,4 +24,12 @@ urlpatterns = [
     path('registration/', reg_views.registration, name="registration"),
     path('login/', reg_views.login, name="login"),
     path('profile/', cal_views.profile, name="profile"),
+
+    path('profile/mnd', cal_views.monday, name="monday"),
+    path('profile/tue', cal_views.tuesday, name="tuesday"),
+    path('profile/wed', cal_views.wednesday, name="wednesday"),
+    path('profile/thu', cal_views.thursday, name="thursday"),
+    path('profile/fri', cal_views.friday, name="friday"),
+    path('profile/sat', cal_views.saturday, name="saturday"),
+    path('profile/sun', cal_views.sunday, name="sunday"),
 ]

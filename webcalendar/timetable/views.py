@@ -8,40 +8,79 @@ def calc_time(start, end):
     start = timedelta(hours=start.hour, minutes=start.minute)
     return int((end - start).seconds / 3600)
 
-def profile(request):
-    user_tmp = User.objects.get(user_name=request.session['current_user'])
-
-    monday_data = Monday.objects.filter(user=user_tmp.id)
-
-    cases = []
-    free_time = 24
-    busy_time = 0
-    progress_bar = 0
-
-    for case in monday_data:
-        cases.append(case)
-        case_duration = free_time - calc_time(case.case_end, case.case_start)
-        busy_time += case_duration
-        free_time -= case_duration
+def data_generation(data, day):
+    cases_tmp = [case for case in data]
+    cases_sorted_by_time = []
         
+    while len(cases_tmp) != 0:
+        min_ = 0
+        for case in cases_tmp:
+            if case.case_start.hour < min_ or min_ == 0:
+                min_ = case.case_start.hour
+                to_del = case
+        cases_sorted_by_time.append(to_del)
+        try:
+            cases_tmp.remove(to_del)
+        except:
+            pass
+    day_data = []
+    busy_time = 0
+    free_time = 24
+    for case in cases_sorted_by_time:
+        tmp = []
+        tmp.append(case.case)  # Задача
+        tmp.append(case.case_description)  # Описание задачи
+        tmp.append(calc_time(case.case_start, case.case_end))  # Длительность
+        tmp.append(case.case_start.hour)  # начало
+        tmp.append(case.case_end.hour)  # конец
+        day_data.append(tmp)
+        busy_time += calc_time(case.case_start, case.case_end)
     progress_bar = int((busy_time/24)*100)
 
-    data = {    
-                'day' : 'Monday',
-                'doest_exist': False,
-                'password_incorrect' : False,
-                'monday_data' : Monday.objects.filter(user=user_tmp.id),
-                'tuesday_data' : Tuesday.objects.filter(user=user_tmp.id),
-                'wednesday_data' : Wednesday.objects.filter(user=user_tmp.id),
-                'thursday_data' : Thursday.objects.filter(user=user_tmp.id),
-                'friday_data' : Friday.objects.filter(user=user_tmp.id),
-                'saturday_data' : Saturday.objects.filter(user=user_tmp.id),
-                'sunday_data' : Sunday.objects.filter(user=user_tmp.id),
-                'busy_time' : busy_time,
-                'empty_time' : free_time,
-                'name' : user_tmp.user_name,
-                'cases' : cases,
-                'progress' : progress_bar
-            }     
+    return {
+        'day' : day,
+        "cases" : day_data,
+        "busy_time" : busy_time,
+        "empty_time" : free_time-busy_time,
+        "progress": progress_bar,
+    }
 
-    return render(request, "webcalendar/profile.html", context=data)
+def profile(request):
+    user_tmp = User.objects.get(user_name=request.session['current_user'])
+    monday_data = Monday.objects.filter(user=user_tmp.id)
+    return render(request, "webcalendar/profile.html", context=data_generation(monday_data, 'Monday'))
+
+def monday(request):
+    user_tmp = User.objects.get(user_name=request.session['current_user'])
+    data = Monday.objects.filter(user=user_tmp.id)
+    return render(request, "webcalendar/profile.html", context=data_generation(data, 'Monday'))
+
+def tuesday(request):
+    user_tmp = User.objects.get(user_name=request.session['current_user'])
+    data = Tuesday.objects.filter(user=user_tmp.id)
+    return render(request, "webcalendar/profile.html", context=data_generation(data, 'Tuesday'))
+
+def wednesday(request):
+    user_tmp = User.objects.get(user_name=request.session['current_user'])
+    data = Wednesday.objects.filter(user=user_tmp.id)
+    return render(request, "webcalendar/profile.html", context=data_generation(data, 'Wednesday'))
+
+def thursday(request):
+    user_tmp = User.objects.get(user_name=request.session['current_user'])
+    data = Thursday.objects.filter(user=user_tmp.id)
+    return render(request, "webcalendar/profile.html", context=data_generation(data, 'Thursday'))
+
+def friday(request):
+    user_tmp = User.objects.get(user_name=request.session['current_user'])
+    data = Friday.objects.filter(user=user_tmp.id)
+    return render(request, "webcalendar/profile.html", context=data_generation(data, 'Friday'))
+
+def saturday(request):
+    user_tmp = User.objects.get(user_name=request.session['current_user'])
+    data = Saturday.objects.filter(user=user_tmp.id)
+    return render(request, "webcalendar/profile.html", context=data_generation(data, 'Saturday'))
+
+def sunday(request):
+    user_tmp = User.objects.get(user_name=request.session['current_user'])
+    data = Sunday.objects.filter(user=user_tmp.id)
+    return render(request, "webcalendar/profile.html", context=data_generation(data, 'Sunday'))

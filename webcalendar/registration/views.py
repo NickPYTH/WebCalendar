@@ -7,6 +7,7 @@ from django.db import IntegrityError
 from django.shortcuts import redirect
 from django.urls import reverse
 from timetable.models import *
+from timetable.views import calc_time
 
 
 def main_page(request):
@@ -81,32 +82,46 @@ def login(request):
         if user_tmp.user_password == request.POST['password']:
             request.session['user_id'] = user_tmp.id
 
-        monday_tmp = Monday(
-            id=None,
-            case_start="11:00:00",
-            case_end="07:00:00",
-            case="Dream", 
-            case_description="Sweety dreams",
-            user=user_tmp)
-        monday_tmp.save()
-
         monday_data = Monday.objects.filter(user=user_tmp.id)
+        
+        cases_tmp = [case for case in monday_data]
+        cases_sorted_by_time = []
+        
+        while len(cases_tmp) != 0:
+            min_ = 0
+            for case in cases_tmp:
+                if case.case_start.hour < min_ or min_ == 0:
+                    min_ = case.case_start.hour
+                    to_del = case
+            cases_sorted_by_time.append(to_del)
+            try:
+                cases_tmp.remove(to_del)
+            except:
+                pass
+        monday_data = []
+        busy_time = 0
+        free_time = 24
+        for case in cases_sorted_by_time:
+            tmp = []
+            tmp.append(case.case)  # Задача
+            tmp.append(case.case_description)  # Описание задачи
+            tmp.append(calc_time(case.case_start, case.case_end))  # Длительность
+            tmp.append(case.case_start.hour)  # начало
+            tmp.append(case.case_end.hour)  # конец
+            monday_data.append(tmp)
+            busy_time += calc_time(case.case_start, case.case_end)
+        
+        progress_bar = int((busy_time/24)*100)
+
 
         data = {    
                 'day' : 'Monday',
-                'doest_exist': False,
-                'password_incorrect' : False,
-                'monday_data' : Monday.objects.filter(user=user_tmp.id),
-                'tuesday_data' : Tuesday.objects.filter(user=user_tmp.id),
-                'wednesday_data' : Wednesday.objects.filter(user=user_tmp.id),
-                'thursday_data' : Thursday.objects.filter(user=user_tmp.id),
-                'friday_data' : Friday.objects.filter(user=user_tmp.id),
-                'saturday_data' : Saturday.objects.filter(user=user_tmp.id),
-                'sunday_data' : Sunday.objects.filter(user=user_tmp.id),
-                'busy_time' : 16,
-                'empty_time' : 84,
+                'busy_time' : busy_time,
+                'empty_time' : free_time - busy_time,
+                'cases' : monday_data,
+                'progress' : progress_bar,
                 }
-        
+                
         return render(request, "webcalendar/profile.html", data)
 
     else:

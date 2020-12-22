@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-Registration
+Profile
 {% endblock %}
 
 {% block signup %}
@@ -13,20 +13,36 @@ Registration
 
 {% block content %}
 <div class="container">
+    <div class="d-lg-none text-center mb-3">
+        <div class="btn-group">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ day }}
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'monday' %}">Monday</a>
+            <a class="dropdown-item" href="{% url 'tuesday' %}">Tuesday</a>
+            <a class="dropdown-item" href="{% url 'wednesday' %}">Wednesday</a>
+            <a class="dropdown-item" href="{% url 'thursday' %}">Thursday</a>
+            <a class="dropdown-item" href="{% url 'friday' %}">Friday</a>
+            <a class="dropdown-item" href="{% url 'saturday' %}">Saturday</a>
+            <a class="dropdown-item" href="{% url 'sunday' %}">Sunday</a>
+    </div>
+</div>
+    </div>
    <div class="row">
         <div class="d-none d-lg-flex col-lg-2">
             <ul class="list-group list-group-flush text-center">
-                <li class="list-group-item">Monday</li>
-                <li class="list-group-item">Tuesday</li>
-                <li class="list-group-item">Wednesday</li>
-                <li class="list-group-item">Thursday</li>
-                <li class="list-group-item">Friday</li>
-                <li class="list-group-item">Saturday</li>
-                <li class="list-group-item">Sunday</li>
+                <li class="list-group-item"><a href="{% url 'monday' %}">Monday</a></li>
+                <li class="list-group-item"><a href="{% url 'tuesday' %}">Tuesday</a></li>
+                <li class="list-group-item"><a href="{% url 'wednesday' %}">Wednesday</a></li>
+                <li class="list-group-item"><a href="{% url 'thursday' %}">Thursday</a></li>
+                <li class="list-group-item"><a href="{% url 'friday' %}">Friday</a></li>
+                <li class="list-group-item"><a href="{% url 'saturday' %}">Saturday</a></li>
+                <li class="list-group-item"><a href="{% url 'sunday' %}">Sunday</a></li>
             </ul>
         </div>
         <div class="col-lg-10">
-            <p class="text-center">
+            <p class="d-none d-lg-flex justify-content-lg-center">
                 {{ day }}
             </p>
             <p class="text-center">
@@ -38,10 +54,13 @@ Registration
             <br>
 
             {% for case in cases %}
-                Case - {{ case.case }}<br>
-                Case description - {{ case.case_description }}<br>
-                Case start - {{ case.case_start }}<br>
-                Case end - {{ case.case_end }}<br>
+                <div class="mb-3">
+                    <div>Case - {{ case.0 }}</div>
+                    <div>Case description - {{ case.1 }}</div>
+                    <div>Case duration - {{ case.2 }}</div>
+                    <div>Case start - {{ case.3 }}</div>
+                    <div>Case end - {{ case.4 }}</div>
+                </div>
             {% endfor %}
 
         </div>
