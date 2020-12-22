@@ -6,9 +6,35 @@ Profile
 {% endblock %}
 
 {% block signup %}
+{% if user == "None" %}
+  <li class="nav-item active">
+    <a class="nav-link active" href="{% url 'registration' %}">Sign Up<span class="sr-only"></span></a>
+  </li>
+{% endif %}
 {% endblock %}
 
 {% block login %}
+{% if user == "None" %}
+  <li class="nav-item active">
+    <a class="nav-link active" href="{% url 'login' %}">Log In<span class="sr-only"></span></a>
+  </li>
+{% endif %}
+{% endblock %}
+
+{% block user %}
+{% if user != "None" %}
+  <li class="nav-item active">
+    <a class="nav-link active" href="{% url 'profile' %}">{{user}}<span class="sr-only"></span></a>
+  </li>
+{% endif %}
+{% endblock %}
+
+{% block logout %}
+{% if user != "None" %}
+  <li class="nav-item active">
+    <a class="nav-link active" href="{% url 'logout' %}">Log out<span class="sr-only"></span></a>
+  </li>
+{% endif %}
 {% endblock %}
 
 {% block content %}

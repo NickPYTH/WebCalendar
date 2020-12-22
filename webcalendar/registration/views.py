@@ -11,10 +11,17 @@ from timetable.views import calc_time
 
 
 def main_page(request):
-    data = {
-        
-    }
-    return render(request, "index.html", data)
+    try:
+        #del request.session['user_id']
+        data = {
+        'user' : request.session['user_name'],
+        }
+        return render(request, "index.html", data)
+    except KeyError:
+        data = {
+            'user' : "None",
+        }
+        return render(request, "index.html", data)
 
 def registration(request):
     if request.method == 'POST':
@@ -36,19 +43,67 @@ def registration(request):
         
         user_tmp = User.objects.get(user_mail=user_mail)
         if user_tmp.user_password == request.POST['password']:
-            request.session['user_id'] = user_tmp.id
+            request.session['user_name'] = user_tmp.user_name
         request.session['current_user'] = user_name
-        monday_tmp = Monday(
+        Monday.objects.create(
             id=None,
             case_start="23:00:00",
             case_end="07:00:00",
             case="Dream", 
             case_description="Sweety dreams",
             user=user_tmp)
-        monday_tmp.save()
+        Tuesday.objects.create(
+            id=None,
+            case_start="23:00:00",
+            case_end="07:00:00",
+            case="Dream", 
+            case_description="Sweety dreams",
+            user=user_tmp)
+        Wednesday.objects.create(
+            id=None,
+            case_start="23:00:00",
+            case_end="07:00:00",
+            case="Dream", 
+            case_description="Sweety dreams",
+            user=user_tmp)
+        Thursday.objects.create(
+            id=None,
+            case_start="23:00:00",
+            case_end="07:00:00",
+            case="Dream", 
+            case_description="Sweety dreams",
+            user=user_tmp)
+        Friday.objects.create(
+            id=None,
+            case_start="23:00:00",
+            case_end="07:00:00",
+            case="Dream", 
+            case_description="Sweety dreams",
+            user=user_tmp)
+        Saturday.objects.create(
+            id=None,
+            case_start="23:00:00",
+            case_end="07:00:00",
+            case="Dream", 
+            case_description="Sweety dreams",
+            user=user_tmp)
+        Sunday.objects.create(
+            id=None,
+            case_start="23:00:00",
+            case_end="07:00:00",
+            case="Dream", 
+            case_description="Sweety dreams",
+            user=user_tmp)
         return render(request, "registration/success_registration.html")
     else:
         return render(request, "registration/registration.html")
+
+def logout(request):
+    try:
+        del request.session['user_name']
+    except:
+        pass
+    return render(request, "registration/logout.html")
 
 def login(request):
     if request.method == 'POST':
@@ -80,7 +135,7 @@ def login(request):
 
         user_tmp = User.objects.get(user_name=user_name)
         if user_tmp.user_password == request.POST['password']:
-            request.session['user_id'] = user_tmp.id
+            request.session['user_name'] = user_tmp.user_name
 
         monday_data = Monday.objects.filter(user=user_tmp.id)
         
