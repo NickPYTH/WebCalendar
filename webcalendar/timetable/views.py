@@ -127,7 +127,15 @@ def add_case(request, day_short=''):
         return render(request, "webcalendar/addcase.html", context=data)
 
     elif request.method == "POST":
-        start = request.POST.get('case_start')
+        user_tmp = User.objects.get(user_name=request.session['current_user'])
+        case = request.POST.get('case')
+        case_description = request.POST.get('case_description')
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+        day = get_day(day_short)
+        day.objects.create(user=user_tmp, case_start=start_time, case_end=end_time, case=case, case_description=case_description, is_default=False)
+        print(user_tmp)
+        '''start = request.POST.get('case_start')
         end = request.POST.get('case_end')
         case_name = request.POST.get('case')
         description = request.POST.get('case_description')
@@ -148,9 +156,9 @@ def add_case(request, day_short=''):
             old_end_hrs = case.case_end.hour
             if not (old_start_hrs >= new_end_hrs or old_end_hrs <= new_start_hrs): # проверка на конфликт дел по времени
                 return HttpResponse('Ошибка. новое дело конфликтует со старым. потом перестилизуешь👍👍👍')
-        day.objects.create(user=user_tmp, case_start=start, case_end=end, case=case_name, case_description=description, is_default=False)
+        day.objects.create(user=user_tmp, case_start=start, case_end=end, case=case_name, case_description=description, is_default=False)'''
 
-        return HttpResponseRedirect("/profile/"+day_short)
+        return HttpResponseRedirect("/profile/"+'mnd')
 
 def set_default(request, day_short):
     user_tmp = User.objects.get(user_name=request.session['current_user'])

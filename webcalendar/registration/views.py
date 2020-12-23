@@ -15,7 +15,7 @@ def main_page(request):
         #del request.session['user_name']
         User.objects.get(user_name=request.session['user_name'])
         data = {
-        'user' : request.session['user_name'],
+        'user' : request.session['user_name'],  
         }
         return render(request, "index.html", data)
     except:

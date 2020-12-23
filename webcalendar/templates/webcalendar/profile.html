@@ -12,25 +12,25 @@ Profile
          <div class="col-12 col-lg-6">
             <div class="form-group">
                <label>Case</label>
-               <input id="case" type="text" class="form-control" placeholder="Enter case name">
+               <input id="case" name="case" type="text" class="form-control" placeholder="Enter case name">
                <small class="form-text text-muted">For example, play Dota</small>
             </div>
             <div class="form-group">
                <label>Case description</label>
-               <input id="case_description" type="text" class="form-control" placeholder="Enter case description">
+               <input id="case_description" name="case_description" type="text" class="form-control" placeholder="Enter case description">
             </div>
          </div>
          <div class="col-12 col-lg-6">
             <div class="form-group">
                <label>Case start time</label>
-               <input id="start_time" type="time" class="form-control" placeholder="Start time" onchange="check_time_start()">
+               <input id="start_time" name="start_time" type="time" class="form-control" placeholder="Start time" onchange="check_time_start()">
                <small class="form-text text-muted">
                   In a day 24 hours
                 </small>
             </div>
             <div class="form-group">
                <label>Case end time</label>
-               <input id="end_time" type="time" class="form-control" placeholder="End time" onchange="check_time_end()">
+               <input id="end_time" name="end_time" type="time" class="form-control" placeholder="End time" onchange="check_time_end()">
             </div>
          </div>
       </div>
@@ -38,7 +38,7 @@ Profile
           Time stamps intersect
       </div>
       <div class="d-none d-lg-flex">
-      <h3 class="text-center">Current time chart</h3>
+      <h3 class="text-center d-lg-none">Current time chart</h3>
       <canvas id="oilChart1"></canvas>
       <div id="free_time">
       </div>
@@ -133,9 +133,6 @@ Profile
                         <div id="{{ case.6 }}_start">Case start - {{ case.3 }}</div>
                         <div id="{{ case.6 }}_end">Case end - {{ case.4 }}</div>
                      </h6>
-                     <p class="card-text">
-                     
-                     </p>
                      <div class="d-flex justify-content-around mb-3">
                         <form method="get" action="{% url 'deletecase' %}/{{day_short}}/{{ case.5 }}/">
                            <button type="submit" class="btn btn-secondary">Delete</button>
