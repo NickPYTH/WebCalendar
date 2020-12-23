@@ -181,7 +181,7 @@ def login(request):
                 'progress' : progress_bar,
                 }
                 
-        return render(request, "webcalendar/profile.html", data)
+        return HttpResponseRedirect("/profile/mnd")
 
     else:
         data = {
