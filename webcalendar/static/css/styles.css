@@ -10,3 +10,16 @@ body {
     overflow-x: hidden;
 }
 
+li {
+    cursor: pointer;
+}
+
+a {
+    color: #212529;
+}
+
+a:hover {
+    color: #212529;
+    outline: none;
+    text-decoration: none;
+}

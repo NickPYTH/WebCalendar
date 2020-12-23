@@ -1,0 +1,12 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<form method="POST" action="{% url 'changecase' %}/{{ day_short }}/{{ case_id }}/">
+    {% csrf_token %}
+<table>
+    {{ form }}
+</table>
+<input type="submit" value="Send">
+<p>потом перестилизуешь👍👍👍</p>
+{% endblock %}

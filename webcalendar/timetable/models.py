@@ -8,10 +8,12 @@ class BaseDay(models.Model):
     case_end = models.TimeField()
     case = models.CharField(max_length=50)
     case_description = models.TextField()
+    is_default = models.BooleanField()
 
     def __str__(self):
+        #return str([self.user, self.case_start, self.case_end, self.case, self.case_description])
         return str(self.user)
-
+        
 
 class Monday(BaseDay):
     class Meta:

@@ -12,12 +12,13 @@ from timetable.views import calc_time
 
 def main_page(request):
     try:
-        #del request.session['user_id']
+        #del request.session['user_name']
+        User.objects.get(user_name=request.session['user_name'])
         data = {
         'user' : request.session['user_name'],
         }
         return render(request, "index.html", data)
-    except KeyError:
+    except:
         data = {
             'user' : "None",
         }
@@ -45,55 +46,58 @@ def registration(request):
         if user_tmp.user_password == request.POST['password']:
             request.session['user_name'] = user_tmp.user_name
         request.session['current_user'] = user_name
-        Monday.objects.create(
-            id=None,
-            case_start="23:00:00",
-            case_end="07:00:00",
-            case="Dream", 
-            case_description="Sweety dreams",
-            user=user_tmp)
-        Tuesday.objects.create(
-            id=None,
-            case_start="23:00:00",
-            case_end="07:00:00",
-            case="Dream", 
-            case_description="Sweety dreams",
-            user=user_tmp)
-        Wednesday.objects.create(
-            id=None,
-            case_start="23:00:00",
-            case_end="07:00:00",
-            case="Dream", 
-            case_description="Sweety dreams",
-            user=user_tmp)
-        Thursday.objects.create(
-            id=None,
-            case_start="23:00:00",
-            case_end="07:00:00",
-            case="Dream", 
-            case_description="Sweety dreams",
-            user=user_tmp)
-        Friday.objects.create(
-            id=None,
-            case_start="23:00:00",
-            case_end="07:00:00",
-            case="Dream", 
-            case_description="Sweety dreams",
-            user=user_tmp)
-        Saturday.objects.create(
-            id=None,
-            case_start="23:00:00",
-            case_end="07:00:00",
-            case="Dream", 
-            case_description="Sweety dreams",
-            user=user_tmp)
-        Sunday.objects.create(
-            id=None,
-            case_start="23:00:00",
-            case_end="07:00:00",
-            case="Dream", 
-            case_description="Sweety dreams",
-            user=user_tmp)
+        for day in [Monday, Tuesday, Wednesday, Thursday, Friday]:
+            day.objects.create(
+                id=None,
+                case_start="00:00:00",
+                case_end="08:00:00",
+                case="Dream", 
+                case_description="Sweety dreams",
+                user=user_tmp,
+                is_default=True)
+            day.objects.create(
+                id=None,
+                case_start="00:00:00",
+                case_end="08:00:00",
+                case="Dream", 
+                case_description="Sweety dreams",
+                user=user_tmp,
+                is_default=False)
+            day.objects.create(
+                id=None,
+                case_start="09:00:00",
+                case_end="15:00:00",
+                case="Job", 
+                case_description="Fucking job..",
+                user=user_tmp,
+                is_default=False)
+            day.objects.create(
+                id=None,
+                case_start="09:00:00",
+                case_end="15:00:00",
+                case="Job", 
+                case_description="Fucking job..",
+                user=user_tmp,
+                is_default=True)
+        for day in [Saturday, Sunday]:
+            day.objects.create(
+                id=None,
+                case_start="00:00:00",
+                case_end="10:00:00",
+                case="Dream", 
+                case_description="Sweety dreams",
+                user=user_tmp,
+                is_default=True)
+            day.objects.create(
+                id=None,
+                case_start="00:00:00",
+                case_end="10:00:00",
+                case="Dream", 
+                case_description="Sweety dreams",
+                user=user_tmp,
+                is_default=False)
+            
+        
         return render(request, "registration/success_registration.html")
     else:
         return render(request, "registration/registration.html")

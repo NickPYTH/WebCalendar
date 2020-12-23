@@ -1,50 +1,90 @@
 {% extends "base/base.html" %}
 {% load static %}
-
 {% block title %}
 Profile
 {% endblock %}
-
+{% block blowUpForm %}
+<div id="popupWin" class="modalwin p-2 p-lg-5">
+   <form method="POST" action="{% url 'addcase' %}/{{ day_short }}/">
+      {% csrf_token %}
+      <h2 class="text-center">Add new case</h2>
+      <div class="row">
+         <div class="col-12 col-lg-6">
+            <div class="form-group">
+               <label>Case</label>
+               <input id="case" type="text" class="form-control" placeholder="Enter case name">
+               <small class="form-text text-muted">For example, play Dota</small>
+            </div>
+            <div class="form-group">
+               <label>Case description</label>
+               <input id="case_description" type="text" class="form-control" placeholder="Enter case description">
+            </div>
+         </div>
+         <div class="col-12 col-lg-6">
+            <div class="form-group">
+               <label>Case start time</label>
+               <input id="start_time" type="time" class="form-control" placeholder="Start time" onchange="check_time_start()">
+               <small class="form-text text-muted">
+                  In a day 24 hours
+                </small>
+            </div>
+            <div class="form-group">
+               <label>Case end time</label>
+               <input id="end_time" type="time" class="form-control" placeholder="End time" onchange="check_time_end()">
+            </div>
+         </div>
+      </div>
+      <div id="alert" style="display: none;" class="alert alert-danger" role="alert">
+          Time stamps intersect
+      </div>
+      <div class="d-none d-lg-flex">
+      <h3 class="text-center">Current time chart</h3>
+      <canvas id="oilChart1"></canvas>
+      <div id="free_time">
+      </div>
+      </div>
+      <div class="text-center mt-2">
+      <button id="send_btn" type="submit" value="Send" class="btn btn-primary" disabled="true">Submit</button>
+      </div>
+   </form>
+</div>
+{% endblock %}
 {% block signup %}
 {% if user == "None" %}
-  <li class="nav-item active">
-    <a class="nav-link active" href="{% url 'registration' %}">Sign Up<span class="sr-only"></span></a>
-  </li>
+<li class="nav-item active">
+   <a class="nav-link active" href="{% url 'registration' %}">Sign Up<span class="sr-only"></span></a>
+</li>
 {% endif %}
 {% endblock %}
-
 {% block login %}
 {% if user == "None" %}
-  <li class="nav-item active">
-    <a class="nav-link active" href="{% url 'login' %}">Log In<span class="sr-only"></span></a>
-  </li>
+<li class="nav-item active">
+   <a class="nav-link active" href="{% url 'login' %}">Log In<span class="sr-only"></span></a>
+</li>
 {% endif %}
 {% endblock %}
-
 {% block user %}
 {% if user != "None" %}
-  <li class="nav-item active">
-    <a class="nav-link active" href="{% url 'profile' %}">{{user}}<span class="sr-only"></span></a>
-  </li>
+<li class="nav-item active">
+   <a class="nav-link active" href="{% url 'profile' %}">{{user}}<span class="sr-only"></span></a>
+</li>
 {% endif %}
 {% endblock %}
-
 {% block logout %}
 {% if user != "None" %}
-  <li class="nav-item active">
-    <a class="nav-link active" href="{% url 'logout' %}">Log out<span class="sr-only"></span></a>
-  </li>
+<li class="nav-item active">
+   <a class="nav-link active" href="{% url 'logout' %}">Log out<span class="sr-only"></span></a>
+</li>
 {% endif %}
 {% endblock %}
-
 {% block content %}
 <div class="container">
-    <div class="d-lg-none text-center mb-3">
-        <div class="btn-group">
-        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{ day }}
-        </button>
-        <div class="dropdown-menu">
+   <div class="d-lg-none text-center mb-3">
+      <div class="btn-group">
+         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         {{ day }}
+         </button>
+         <div class="dropdown-menu">
             <a class="dropdown-item" href="{% url 'monday' %}">Monday</a>
             <a class="dropdown-item" href="{% url 'tuesday' %}">Tuesday</a>
             <a class="dropdown-item" href="{% url 'wednesday' %}">Wednesday</a>
@@ -52,44 +92,80 @@ Profile
             <a class="dropdown-item" href="{% url 'friday' %}">Friday</a>
             <a class="dropdown-item" href="{% url 'saturday' %}">Saturday</a>
             <a class="dropdown-item" href="{% url 'sunday' %}">Sunday</a>
-    </div>
-</div>
-    </div>
-   <div class="row">
-        <div class="d-none d-lg-flex col-lg-2">
-            <ul class="list-group list-group-flush text-center">
-                <li class="list-group-item"><a href="{% url 'monday' %}">Monday</a></li>
-                <li class="list-group-item"><a href="{% url 'tuesday' %}">Tuesday</a></li>
-                <li class="list-group-item"><a href="{% url 'wednesday' %}">Wednesday</a></li>
-                <li class="list-group-item"><a href="{% url 'thursday' %}">Thursday</a></li>
-                <li class="list-group-item"><a href="{% url 'friday' %}">Friday</a></li>
-                <li class="list-group-item"><a href="{% url 'saturday' %}">Saturday</a></li>
-                <li class="list-group-item"><a href="{% url 'sunday' %}">Sunday</a></li>
-            </ul>
-        </div>
-        <div class="col-lg-10">
-            <p class="d-none d-lg-flex justify-content-lg-center">
-                {{ day }}
-            </p>
-            <p class="text-center">
-                You have {{ empty_time }} hours free time
-            </p>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
-            </div>
-            <br>
-
-            {% for case in cases %}
-                <div class="mb-3">
-                    <div>Case - {{ case.0 }}</div>
-                    <div>Case description - {{ case.1 }}</div>
-                    <div>Case duration - {{ case.2 }}</div>
-                    <div>Case start - {{ case.3 }}</div>
-                    <div>Case end - {{ case.4 }}</div>
-                </div>
-            {% endfor %}
-
-        </div>
+         </div>
+      </div>
    </div>
+   <div class="row">
+      <div class="d-none d-lg-flex col-lg-2 order-2 order-lg-1">
+         <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item"><a href="{% url 'monday' %}">Monday</a></li>
+            <li class="list-group-item"><a href="{% url 'tuesday' %}">Tuesday</a></li>
+            <li class="list-group-item"><a href="{% url 'wednesday' %}">Wednesday</a></li>
+            <li class="list-group-item"><a href="{% url 'thursday' %}">Thursday</a></li>
+            <li class="list-group-item"><a href="{% url 'friday' %}">Friday</a></li>
+            <li class="list-group-item"><a href="{% url 'saturday' %}">Saturday</a></li>
+            <li class="list-group-item"><a href="{% url 'sunday' %}">Sunday</a></li>
+         </ul>
+      </div>
+      <div class="col-lg-8 order-1">
+         <p class="d-none d-lg-flex justify-content-lg-center">
+            {{ day }}
+         </p>
+         <p class="text-center">
+            You have {{ empty_time }} hours free time
+         </p>
+         <p id="case_nums" class="d-none">
+            {{ cases_count }}
+         </p>
+         <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+         </div>
+         <br>
+         <div class="row">
+         {% for case in cases %}
+            <div  class="col-12 col-lg-4">
+               <div style="height: 250px;" class="card mb-4 " style="width: 18rem;">
+                  <div class="card-body">
+                     <h5 class="card-title">
+                        <div id="{{ case.6 }}_name">Case - {{ case.0 }}</div>
+                     </h5>
+                     <h6 class="card-subtitle mb-2 text-muted">
+                        <div id="{{ case.6 }}_start">Case start - {{ case.3 }}</div>
+                        <div id="{{ case.6 }}_end">Case end - {{ case.4 }}</div>
+                     </h6>
+                     <p class="card-text">
+                     
+                     </p>
+                     <div class="d-flex justify-content-around mb-3">
+                        <form method="get" action="{% url 'deletecase' %}/{{day_short}}/{{ case.5 }}/">
+                           <button type="submit" class="btn btn-secondary">Delete</button>
+                        </form>
+                        <form method="get" action="{% url 'changecase' %}/{{day_short}}/{{ case.5 }}/">
+                           <button type="submit" class="btn btn-secondary">Change</button>
+                        </form>
+                     </div>
+                     <div>Case description - {{ case.1 }}</div>
+                     <div class="d-none" id="{{ case.6 }}_duration">Case duration - {{ case.2 }}</div>
+                  </div>
+               </div>
+            </div>
+            {% endfor %}
+            
+      </div>
+   </div>
+   <div class="col-12 col-lg-2 order-0 order-lg-3">
+         <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item" onclick="showModalWin()">Add case</li>
+            <li class="list-group-item"><a href="{% url 'setdefault' %}/{{day_short}}/">Set as default</li>
+            <li class="list-group-item"><a href="{% url 'resettodefault' %}/{{day_short}}/">Reset cases</a></li>
+         </ul>
+      </div>
 </div>
+
+
+
+
+
+
+
 {% endblock %}

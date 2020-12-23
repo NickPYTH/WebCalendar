@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from timetable import views as cal_views
 from registration import views as reg_views
 
@@ -33,4 +33,15 @@ urlpatterns = [
     path('profile/fri', cal_views.friday, name="friday"),
     path('profile/sat', cal_views.saturday, name="saturday"),
     path('profile/sun', cal_views.sunday, name="sunday"),
+
+    path('addcase', cal_views.add_case, name='addcase'),
+    re_path(r'^addcase/(?P<day_short>\D+)/', cal_views.add_case, name='addcase'), # localhost/addcase/mnd/ localhost/addcase/tue/ localhost/addcase/wed/ .....
+    path('setdefault', cal_views.set_default, name='setdefault'),
+    re_path(r'^setdefault/(?P<day_short>\D+)/', cal_views.set_default, name='setdefault'),
+    path('resettodefault', cal_views.reset_to_default, name='resettodefault'),
+    re_path(r'^resettodefault/(?P<day_short>\D+)/', cal_views.reset_to_default, name='resettodefault'),
+    path('deletecase', cal_views.delete_case, name='deletecase'),
+    re_path(r'^deletecase/(?P<day_short>\D+)/(?P<case_id>\d+)/', cal_views.delete_case, name='deletecase'),
+    path('changecase', cal_views.change_case, name='changecase'),
+    re_path(r'^changecase/(?P<day_short>\D+)/(?P<case_id>\d+)/', cal_views.change_case, name='changecase'),
 ]
