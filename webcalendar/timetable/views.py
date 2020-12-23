@@ -134,7 +134,6 @@ def add_case(request, day_short=''):
         end_time = request.POST.get('end_time')
         day = get_day(day_short)
         day.objects.create(user=user_tmp, case_start=start_time, case_end=end_time, case=case, case_description=case_description, is_default=False)
-        print(user_tmp)
         '''start = request.POST.get('case_start')
         end = request.POST.get('case_end')
         case_name = request.POST.get('case')
@@ -158,7 +157,7 @@ def add_case(request, day_short=''):
                 return HttpResponse('Ошибка. новое дело конфликтует со старым. потом перестилизуешь👍👍👍')
         day.objects.create(user=user_tmp, case_start=start, case_end=end, case=case_name, case_description=description, is_default=False)'''
 
-        return HttpResponseRedirect("/profile/"+'mnd')
+        return HttpResponseRedirect("/profile/"+day_short)
 
 def set_default(request, day_short):
     user_tmp = User.objects.get(user_name=request.session['current_user'])

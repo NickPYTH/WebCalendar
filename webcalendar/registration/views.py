@@ -139,7 +139,7 @@ def login(request):
 
         user_tmp = User.objects.get(user_name=user_name)
         if user_tmp.user_password == request.POST['password']:
-            request.session['user_name'] = user_tmp.user_name
+            request.session['current_user'] = user_tmp.user_name
 
         monday_data = Monday.objects.filter(user=user_tmp.id)
         
