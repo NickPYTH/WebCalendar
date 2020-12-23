@@ -104,7 +104,7 @@ def registration(request):
 
 def logout(request):
     try:
-        del request.session['user_name']
+        del request.session['current_user']
     except:
         pass
     return render(request, "registration/logout.html")
@@ -140,6 +140,7 @@ def login(request):
         user_tmp = User.objects.get(user_name=user_name)
         if user_tmp.user_password == request.POST['password']:
             request.session['current_user'] = user_tmp.user_name
+        request.session['current_user'] = user_name
 
         monday_data = Monday.objects.filter(user=user_tmp.id)
         
@@ -174,6 +175,7 @@ def login(request):
 
 
         data = {    
+                'user' : request.session['current_user'],
                 'day' : 'Monday',
                 'busy_time' : busy_time,
                 'empty_time' : free_time - busy_time,
@@ -181,7 +183,7 @@ def login(request):
                 'progress' : progress_bar,
                 }
                 
-        return HttpResponseRedirect("/profile/mnd")
+        return HttpResponseRedirect("/profile/mnd", content=data)
 
     else:
         data = {

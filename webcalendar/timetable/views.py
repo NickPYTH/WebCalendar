@@ -44,7 +44,7 @@ def data_generation(request, data, day, day_short):
     progress_bar = int((busy_time/24)*100)
 
     try:
-        user = request.session['user_name']
+        user = request.session['current_user']
     except KeyError:
         user = "None"
 
