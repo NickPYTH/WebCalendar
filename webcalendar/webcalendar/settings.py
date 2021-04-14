@@ -26,10 +26,10 @@ SECRET_KEY = '58v@y(^357z#wg!xo8d6+*^%xpu&@-jv@km32-8(0#p_0%edah'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['188.225.83.42']
 
-LINK = '127.0.0.1:8000'
-
+#LINK = '127.0.0.1:8000'
+LINK = '188.225.83.42'
 # Application definition
 
 INSTALLED_APPS = [
