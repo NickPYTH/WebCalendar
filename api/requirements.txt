@@ -1,0 +1,13 @@
+Django
+gunicorn
+psycopg2-binary
+djangorestframework
+django-cors-headers
+djangorestframework-simplejwt
+drf-yasg
+
+
+#django-versatileimagefield
+#drf-flex-fields
+#pandas # its work
+#Pillow==6.2.0
