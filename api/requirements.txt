@@ -1,0 +1,16 @@
+Django>=3.1,<3.2
+wagtail>=2.12,<2.13
+
+gunicorn
+psycopg2-binary
+djangorestframework
+django-cors-headers
+djangorestframework-simplejwt
+drf-yasg
+wagtail
+
+
+#django-versatileimagefield
+#drf-flex-fields
+#pandas # its work
+#Pillow==6.2.0
