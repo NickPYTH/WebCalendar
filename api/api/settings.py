@@ -47,8 +47,11 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    '*',
+    "localhost:3000",
+    "127.0.0.1:3000"
 ]
+
+CORS_URLS_REGEX = r'*'
 
 CORS_ALLOW_METHODS = [
     'DELETE',
@@ -57,6 +60,19 @@ CORS_ALLOW_METHODS = [
     'PATCH',
     'POST',
     'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'referer',
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 ]
 
 REST_FRAMEWORK = {
