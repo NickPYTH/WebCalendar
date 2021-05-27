@@ -11,3 +11,4 @@ class AchivmentAdmin(admin.ModelAdmin):
         "name",
         "description",
         )
+

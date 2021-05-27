@@ -3,6 +3,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
+from .models import ProxyUser
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
@@ -34,6 +35,8 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match"})
+        if len(attrs['picture_url']) != 0:
+            raise serializers.ValidationError({"picture_url": "picture_url field didn't exist"})
 
         return attrs
 
@@ -44,9 +47,18 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )
+        proxy_user = ProxyUser.create(
+            picture_url = validated_data['picture_url'],
+            username = validated_data['username'],
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name']
+        )
 
         
         user.set_password(validated_data['password'])
         user.save()
+
+        proxy_user.save()
 
         return user

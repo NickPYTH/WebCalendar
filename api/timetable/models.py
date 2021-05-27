@@ -9,3 +9,6 @@ class Timetable(models.Model):
     name = models.CharField(verbose_name="Наименование занятия", max_length=255)
     description = models.TextField(verbose_name="Описание занятия")
 
+
+    
+
