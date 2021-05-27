@@ -22,6 +22,7 @@ RUN apk update \
 RUN pip install --upgrade pip
 #RUN python -m pip install pip==19.3.1
 COPY ./requirements.txt .
+RUN pip install django-cors-headers
 RUN pip install -r requirements.txt
 
 # copy entrypoint.sh
