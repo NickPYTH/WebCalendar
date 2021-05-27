@@ -11,11 +11,15 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
 
-        # Add custom claims
+        # Add custom claimsß
         token['username'] = user.username
         return token
 
 class RegisterSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(
+            required=True,
+            validators=[UniqueValidator(queryset=User.objects.all())]
+            )
     email = serializers.EmailField(
             required=True,
             validators=[UniqueValidator(queryset=User.objects.all())]
@@ -35,8 +39,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match"})
-        #if len(attrs['picture_url']) != 0:
-        #    raise serializers.ValidationError({"picture_url": "picture_url field didn't exist"})
+
 
         return attrs
 
@@ -61,4 +64,4 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         
 
-        return user
+        return proxy_user
