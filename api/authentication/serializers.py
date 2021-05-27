@@ -47,7 +47,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )
-        proxy_user = ProxyUser.create(
+        proxy_user = ProxyUser.objects.create(
             picture_url = validated_data['picture_url'],
             username = validated_data['username'],
             email=validated_data['email'],
