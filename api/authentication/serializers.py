@@ -35,8 +35,8 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match"})
-        if len(attrs['picture_url']) != 0:
-            raise serializers.ValidationError({"picture_url": "picture_url field didn't exist"})
+        #if len(attrs['picture_url']) != 0:
+        #    raise serializers.ValidationError({"picture_url": "picture_url field didn't exist"})
 
         return attrs
 

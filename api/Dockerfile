@@ -30,6 +30,5 @@ COPY ./entrypoint.sh .
 
 # copy project
 COPY . .
-
 # run entrypoint.sh   chmod +x entrypoint.sh
 ENTRYPOINT ["/usr/src/api/entrypoint.sh"]
