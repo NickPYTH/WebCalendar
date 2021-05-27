@@ -29,7 +29,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name')
         extra_kwargs = {
             'first_name': {'required': True},
-            'last_name': {'required': True}
+            'picture_url': {'required': True}
         }
 
     def validate(self, attrs):
@@ -54,11 +54,11 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name']
         )
-
+        proxy_user.save()
         
         user.set_password(validated_data['password'])
         user.save()
 
-        proxy_user.save()
+        
 
         return user
