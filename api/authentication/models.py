@@ -5,4 +5,5 @@ class ProxyUser(models.Model):
     username = models.CharField(verbose_name="Никнейм", max_length=255)
     email = models.EmailField(verbose_name="email")
     first_name = models.CharField(verbose_name="Имя", blank=True, default="None", max_length=255)
-    second_name = models.CharField(verbose_name="Фамилия", blank=True, default="None", max_length=255)
+    last_name = models.CharField(verbose_name="Фамилия", blank=True, default="None", max_length=255)
+    password = models.CharField(max_length=200, blank=True)
