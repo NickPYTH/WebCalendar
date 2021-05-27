@@ -56,7 +56,6 @@ CORS_ORIGIN_WHITELIST = (
     "http://127.0.0.1:3000/"
 )
 
-#CORS_URLS_REGEX = r'*'
 
 CORS_ALLOW_METHODS = [
     'DELETE',
@@ -116,9 +115,13 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        "NAME": "ss",
+        "USER": 'postgres',
+        "PASSWORD": 'VFQYTHSCJCEN',
+        "HOST": '188.225.83.42',
+        "PORT": '4535',
     }
 }
 

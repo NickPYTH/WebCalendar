@@ -6,11 +6,11 @@ from rest_framework.response import Response
 from .serializers import TimetableSerializer
 from .models import Timetable
 
-class CreateTimetableView(generics.CreateAPIView):
+class CreateTimetableRecordView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = TimetableSerializer
 
-class GetAllUserTimetablesList(generics.ListCreateAPIView):
+class GetAllUserTimetablesRecorsList(generics.ListCreateAPIView):
     queryset = Timetable.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = TimetableSerializer
