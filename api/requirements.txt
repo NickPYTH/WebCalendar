@@ -1,14 +1,8 @@
 Django
-gunicorn
+uvicorn
 psycopg2-binary
 djangorestframework
 django-cors-headers
+djangorestframework-simplejwt
 drf-yasg
-jwt==1.7.1
-djangorestframework_simplejwt==4.5.0
-
-
-#django-versatileimagefield
-#drf-flex-fields
-#pandas # its work
-#Pillow==6.2.0
+django-file-validator

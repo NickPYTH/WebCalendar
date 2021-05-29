@@ -13,5 +13,6 @@ fi
 
 python manage.py flush --no-input
 python manage.py migrate
+uvicorn api.asgi:application --port 8000 --host 0.0.0.0
 
 exec "$@"
