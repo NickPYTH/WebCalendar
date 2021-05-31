@@ -1,5 +1,5 @@
 Django
-uvicorn
+gunicorn
 psycopg2-binary
 djangorestframework
 django-cors-headers

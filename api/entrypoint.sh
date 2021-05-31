@@ -10,9 +10,10 @@ then
 
     echo "PostgreSQL started"
 fi
-
+chmod +x entrypoint.sh
 python manage.py flush --no-input
+python manage.py makemigrations
 python manage.py migrate
-uvicorn api.asgi:application --port 8000 --host 0.0.0.0
+
 
 exec "$@"
