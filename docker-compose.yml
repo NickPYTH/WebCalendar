@@ -1,14 +1,10 @@
 version: '3.7'
 services:
-  nginx:
-    build: ./nginx
-    ports:
-      - 7070:80
-    depends_on:
-      - web
+
   web:
     build: ./api
-    #command: python manage.py runserver 0.0.0.0:8000
+    #command: gunicorn api.wsgi:application --bind 0.0.0.0:800
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - 8000:8000
     volumes:
