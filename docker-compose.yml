@@ -3,10 +3,10 @@ services:
 
   web:
     build: ./api
-    #command: gunicorn api.wsgi:application --bind 127.0.0.1:8000
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn api.wsgi:application --bind 0.0.0.0:8000
+    #command: python manage.py runserver 0.0.0.0:8000
     ports:
-      - 8000:8000
+      - 7070:8000
     volumes:
       - ./api/:/usr/src/api/
     env_file:
